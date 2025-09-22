@@ -5,7 +5,13 @@ Comandos:
 
 pip install pillow
 
-pip install speedtest
+pip install pytz
+
+pip install pycountry-convert
+
+API:
+
+https://openweathermap.org/api
 
 Imagens:
 
