@@ -5,6 +5,8 @@ Comandos:
 
 pip install pillow
 
+pip install requests
+
 pip install pytz
 
 pip install pycountry-convert
