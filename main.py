@@ -3,6 +3,9 @@ import tkinter
 from tkinter import *
 from tkinter import ttk
 
+# Importando o Pillow
+from PIL import Image, ImageTk
+
 # Cores
 co0 = "#444466"  # Preta
 co1 = "#feffff"  # Branca
@@ -37,5 +40,37 @@ e_local.place(x=15, y=10)
 
 b_ver = Button(frame_top, text='Ver clima', bg=co1, fg=co2, font=("Ivy 9 bold"), relief='raised', overrelief=RIDGE)
 b_ver.place(x=250, y=10)
+
+# Configurando o frame_corpo
+l_cidade = Label(frame_corpo, text='Cabinda - Angola / África', anchor='center', bg=fundo, fg=co1, font=("Arial 14"))
+l_cidade.place(x=10, y=4)
+
+l_data = Label(frame_corpo, text='09 03 2022 | 10:50:00 AM', anchor='center', bg=fundo, fg=co1, font=("Arial 10"))
+l_data.place(x=10, y=54)
+
+l_umidade = Label(frame_corpo, text='84', anchor='center', bg=fundo, fg=co1, font=("Arial 45"))
+l_umidade.place(x=10, y=100)
+
+l_u_simbolo = Label(frame_corpo, text='%', anchor='center', bg=fundo, fg=co1, font=("Arial 10 bold"))
+l_u_simbolo.place(x=85, y=110)
+
+l_u_nome = Label(frame_corpo, text='Umidade', anchor='center', bg=fundo, fg=co1, font=("Arial 8"))
+l_u_nome.place(x=85, y=140)
+
+l_pressao = Label(frame_corpo, text='Pressão : 1000', anchor='center', bg=fundo, fg=co1, font=("Arial 10"))
+l_pressao.place(x=10, y=184)
+
+l_velocidade = Label(frame_corpo, text='Velocidade do vento : 1000', anchor='center', bg=fundo, fg=co1, font=("Arial 10"))
+l_velocidade.place(x=10, y=212)
+
+imagem = Image.open('images/sol_dia.png')
+imagem = imagem.resize((130, 130))
+imagem = ImageTk.PhotoImage(imagem)
+
+l_icone = Label(frame_corpo, image=imagem, bg=fundo)
+l_icone.place(x=160, y=50)
+
+l_descricao = Label(frame_corpo, text='Nublado', anchor='center', bg=fundo, fg=co1, font=("Arial 10"))
+l_descricao.place(x=170, y=190)
 
 janela.mainloop()
