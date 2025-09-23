@@ -27,19 +27,21 @@ fundo = fundo_dia
 # Criando janela
 janela = Tk()
 janela.title('')
-janela.geometry('320x350')
+janela.geometry('330x350')
 janela.configure(bg=fundo)
 ttk.Separator(janela, orient=HORIZONTAL).grid(row=0, columnspan=1, ipadx=157)
 
 # Criando os frames
-frame_top = Frame(janela, width=320, height=50, bg=co1, pady=0, padx=0)
+frame_top = Frame(janela, width=330, height=50, bg=co1, pady=0, padx=0)
 frame_top.grid(row=1, column=0)
 
-frame_corpo = Frame(janela, width=320, height=300, bg=fundo, pady=12, padx=0)
+frame_corpo = Frame(janela, width=330, height=300, bg=fundo, pady=12, padx=0)
 frame_corpo.grid(row=2, column=0, sticky=NW)
 
 estilo = ttk.Style(janela)
 estilo.theme_use('clam')
+
+global imagem
 
 # Função que retorna as informações
 def informacao():
@@ -54,30 +56,20 @@ def informacao():
     dados = r.json()
 
     print(dados)
-    print('*'*45)
 
     # Obtendo zona, país e horas
     pais_codigo = dados['sys']['country']
 
-    print(pais_codigo)
-
     # Zona
     zona_fuso = pytz.country_timezones[pais_codigo]
 
-    print(zona_fuso)
-
     # País
     pais = pytz.country_names[pais_codigo]
-
-    print(pais)
 
     # Data
     zona = pytz.timezone(zona_fuso[0])
     zona_horas = datetime.now(zona)
     zona_horas = zona_horas.strftime("%d %m %Y | %H:%M:%S %p")
-
-    print(zona)
-    print(zona_horas)
 
     # Tempo
     tempo = dados['main']['temp']
@@ -85,8 +77,6 @@ def informacao():
     umidade = dados['main']['humidity']
     velocidade = dados['wind']['speed']
     descricao = dados['weather'][0]['description']
-
-    print(tempo, ",", pressao, ",", umidade, ",", velocidade, ",", descricao)
 
     # Mudando informações
     def pais_para_continente(i):
@@ -98,8 +88,6 @@ def informacao():
 
     continente = pais_para_continente(pais)
 
-    print(continente)
-
     # Passando informações nas Labels
     l_cidade['text'] = cidade + ' - ' + pais + ' / ' + continente
     l_data['text'] = zona_horas
@@ -109,6 +97,49 @@ def informacao():
     l_pressao['text'] = 'Pressão : ' + str(pressao)
     l_velocidade['text'] = 'Velocidade do vento : ' + str(velocidade)
     l_descricao['text'] = descricao
+
+    # Lógica para trocar o fundo
+    zona_periodo = datetime.now(zona)
+    zona_periodo = zona_periodo.strftime('%H')
+
+    global imagem
+
+    zona_periodo = int(zona_periodo)
+
+    if zona_periodo <= 5:
+        imagem = Image.open('images/lua.png')
+        fundo = fundo_noite
+    elif zona_periodo <= 11:
+        imagem = Image.open('images/sol_dia.png')
+        fundo = fundo_dia
+    elif zona_periodo <= 17:
+        imagem = Image.open('images/sol_tarde.png')
+        fundo = fundo_tarde
+    elif zona_periodo <= 23:
+        imagem = Image.open('images/lua.png')
+        fundo = fundo_noite
+    else:
+        pass
+    
+    imagem = imagem.resize((130, 130))
+    imagem = ImageTk.PhotoImage(imagem)
+
+    l_icone = Label(frame_corpo, image=imagem, bg=fundo)
+    l_icone.place(x=162, y=50)
+
+    # Passando informações nas Labels
+    janela.configure(bg=fundo)
+    frame_top.configure(bg=fundo)
+    frame_corpo.configure(bg=fundo)
+
+    l_cidade['bg'] = fundo
+    l_data['bg'] = fundo
+    l_umidade['bg'] = fundo
+    l_u_simbolo['bg'] = fundo
+    l_u_nome['bg'] = fundo
+    l_pressao['bg'] = fundo
+    l_velocidade['bg'] = fundo
+    l_descricao['bg'] = fundo
 
 # Configurando o frame_top
 e_local = Entry(frame_top, width=20, justify='left', font=("", 14), highlightthickness=1, relief='solid')
@@ -138,13 +169,6 @@ l_pressao.place(x=10, y=184)
 
 l_velocidade = Label(frame_corpo, text='', anchor='center', bg=fundo, fg=co1, font=("Arial 10"))
 l_velocidade.place(x=10, y=212)
-
-imagem = Image.open('images/sol_dia.png')
-imagem = imagem.resize((130, 130))
-imagem = ImageTk.PhotoImage(imagem)
-
-l_icone = Label(frame_corpo, image=imagem, bg=fundo)
-l_icone.place(x=162, y=50)
 
 l_descricao = Label(frame_corpo, text='', anchor='center', bg=fundo, fg=co1, font=("Arial 10"))
 l_descricao.place(x=170, y=190)
