@@ -102,6 +102,13 @@ def informacao():
 
     # Passando informações nas Labels
     l_cidade['text'] = cidade + ' - ' + pais + ' / ' + continente
+    l_data['text'] = zona_horas
+    l_umidade['text'] = umidade
+    l_u_simbolo['text'] = '%'
+    l_u_nome['text'] = 'Umidade'
+    l_pressao['text'] = 'Pressão : ' + str(pressao)
+    l_velocidade['text'] = 'Velocidade do vento : ' + str(velocidade)
+    l_descricao['text'] = descricao
 
 # Configurando o frame_top
 e_local = Entry(frame_top, width=20, justify='left', font=("", 14), highlightthickness=1, relief='solid')
@@ -114,22 +121,22 @@ b_ver.place(x=250, y=10)
 l_cidade = Label(frame_corpo, text='', anchor='center', bg=fundo, fg=co1, font=("Arial 14"))
 l_cidade.place(x=10, y=4)
 
-l_data = Label(frame_corpo, text='09 03 2022 | 10:50:00 AM', anchor='center', bg=fundo, fg=co1, font=("Arial 10"))
+l_data = Label(frame_corpo, text='', anchor='center', bg=fundo, fg=co1, font=("Arial 10"))
 l_data.place(x=10, y=54)
 
-l_umidade = Label(frame_corpo, text='84', anchor='center', bg=fundo, fg=co1, font=("Arial 45"))
+l_umidade = Label(frame_corpo, text='', anchor='center', bg=fundo, fg=co1, font=("Arial 45"))
 l_umidade.place(x=10, y=100)
 
-l_u_simbolo = Label(frame_corpo, text='%', anchor='center', bg=fundo, fg=co1, font=("Arial 10 bold"))
+l_u_simbolo = Label(frame_corpo, text='', anchor='center', bg=fundo, fg=co1, font=("Arial 10 bold"))
 l_u_simbolo.place(x=85, y=110)
 
-l_u_nome = Label(frame_corpo, text='Umidade', anchor='center', bg=fundo, fg=co1, font=("Arial 8"))
+l_u_nome = Label(frame_corpo, text='', anchor='center', bg=fundo, fg=co1, font=("Arial 8"))
 l_u_nome.place(x=85, y=140)
 
-l_pressao = Label(frame_corpo, text='Pressão : 1000', anchor='center', bg=fundo, fg=co1, font=("Arial 10"))
+l_pressao = Label(frame_corpo, text='', anchor='center', bg=fundo, fg=co1, font=("Arial 10"))
 l_pressao.place(x=10, y=184)
 
-l_velocidade = Label(frame_corpo, text='Velocidade do vento : 1000', anchor='center', bg=fundo, fg=co1, font=("Arial 10"))
+l_velocidade = Label(frame_corpo, text='', anchor='center', bg=fundo, fg=co1, font=("Arial 10"))
 l_velocidade.place(x=10, y=212)
 
 imagem = Image.open('images/sol_dia.png')
@@ -137,9 +144,9 @@ imagem = imagem.resize((130, 130))
 imagem = ImageTk.PhotoImage(imagem)
 
 l_icone = Label(frame_corpo, image=imagem, bg=fundo)
-l_icone.place(x=160, y=50)
+l_icone.place(x=162, y=50)
 
-l_descricao = Label(frame_corpo, text='Nublado', anchor='center', bg=fundo, fg=co1, font=("Arial 10"))
+l_descricao = Label(frame_corpo, text='', anchor='center', bg=fundo, fg=co1, font=("Arial 10"))
 l_descricao.place(x=170, y=190)
 
 janela.mainloop()
