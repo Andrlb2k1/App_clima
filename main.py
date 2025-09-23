@@ -6,6 +6,13 @@ from tkinter import ttk
 # Importando o Pillow
 from PIL import Image, ImageTk
 
+# Outras importações
+import requests
+from datetime import datetime
+import json
+import pytz
+import pycountry_convert as pc
+
 # Cores
 co0 = "#444466"  # Preta
 co1 = "#feffff"  # Branca
@@ -34,15 +41,77 @@ frame_corpo.grid(row=2, column=0, sticky=NW)
 estilo = ttk.Style(janela)
 estilo.theme_use('clam')
 
+# Função que retorna as informações
+def informacao():
+    chave = '21b05e2c5b92060ff5acf224c6da6ecd'
+    cidade = e_local.get()
+    api_link = 'https://api.openweathermap.org/data/2.5/weather?q={}&appid={}'.format(cidade, chave)
+
+    # Fazendo a chamada da API usando request
+    r = requests.get(api_link)
+
+    # Convertendo os dados presentes na variável "r" em dicionário
+    dados = r.json()
+
+    print(dados)
+    print('*'*45)
+
+    # Obtendo zona, país e horas
+    pais_codigo = dados['sys']['country']
+
+    print(pais_codigo)
+
+    # Zona
+    zona_fuso = pytz.country_timezones[pais_codigo]
+
+    print(zona_fuso)
+
+    # País
+    pais = pytz.country_names[pais_codigo]
+
+    print(pais)
+
+    # Data
+    zona = pytz.timezone(zona_fuso[0])
+    zona_horas = datetime.now(zona)
+    zona_horas = zona_horas.strftime("%d %m %Y | %H:%M:%S %p")
+
+    print(zona)
+    print(zona_horas)
+
+    # Tempo
+    tempo = dados['main']['temp']
+    pressao = dados['main']['pressure']
+    umidade = dados['main']['humidity']
+    velocidade = dados['wind']['speed']
+    descricao = dados['weather'][0]['description']
+
+    print(tempo, ",", pressao, ",", umidade, ",", velocidade, ",", descricao)
+
+    # Mudando informações
+    def pais_para_continente(i):
+        pais_alpha = pc.country_name_to_country_alpha2(i)
+        pais_continente_codigo = pc.country_alpha2_to_continent_code(pais_alpha)
+        pais_continente_nome = pc.convert_continent_code_to_continent_name(pais_continente_codigo)
+
+        return pais_continente_nome
+
+    continente = pais_para_continente(pais)
+
+    print(continente)
+
+    # Passando informações nas Labels
+    l_cidade['text'] = cidade + ' - ' + pais + ' / ' + continente
+
 # Configurando o frame_top
 e_local = Entry(frame_top, width=20, justify='left', font=("", 14), highlightthickness=1, relief='solid')
 e_local.place(x=15, y=10)
 
-b_ver = Button(frame_top, text='Ver clima', bg=co1, fg=co2, font=("Ivy 9 bold"), relief='raised', overrelief=RIDGE)
+b_ver = Button(frame_top, command=informacao, text='Ver clima', bg=co1, fg=co2, font=("Ivy 9 bold"), relief='raised', overrelief=RIDGE)
 b_ver.place(x=250, y=10)
 
 # Configurando o frame_corpo
-l_cidade = Label(frame_corpo, text='Cabinda - Angola / África', anchor='center', bg=fundo, fg=co1, font=("Arial 14"))
+l_cidade = Label(frame_corpo, text='', anchor='center', bg=fundo, fg=co1, font=("Arial 14"))
 l_cidade.place(x=10, y=4)
 
 l_data = Label(frame_corpo, text='09 03 2022 | 10:50:00 AM', anchor='center', bg=fundo, fg=co1, font=("Arial 10"))
