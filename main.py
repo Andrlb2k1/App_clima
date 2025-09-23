@@ -29,6 +29,7 @@ janela = Tk()
 janela.title('')
 janela.geometry('330x350')
 janela.configure(bg=fundo)
+janela.resizable(width=FALSE, height=FALSE)
 ttk.Separator(janela, orient=HORIZONTAL).grid(row=0, columnspan=1, ipadx=157)
 
 # Criando os frames
